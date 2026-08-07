@@ -20,14 +20,21 @@ optionally `compatibility`) followed by the runtime guide itself.
   (any supporting scripts/templates the skill needs)
 ```
 
-See `example-skill/SKILL.md` for the minimal shape a new skill should start
-from — copy that directory, rename it, and replace the contents.
+Top-level directory names starting with `.` or `_` are ignored by the sync
+in `gravitas-workspace.mjs` (see below) — that's deliberate, so a
+placeholder/template can sit in the repo without being loaded as a real
+skill. See `_example-skill/SKILL.md` for the minimal shape a new skill
+should start from — copy that directory, rename it to drop the leading
+`_`, and replace the contents.
 
 ## Cloning into a workspace
 
-Mirrored the same way `gravitas-skills` gets pulled into `.pi/skills` — see
-`gravitas-workspace.mjs` in `ev-discord` for the hard-reset-not-ff-pull sync
-logic (rewritten upstream history shouldn't wedge the sync).
+Cloned into `~/.ev-discord-skills` and merged into `<workspace>/.pi/skills`
+alongside `gravitas-skills` — see `ensureSkillsMerged()` in
+`gravitas-workspace.mjs` (`ev-discord` repo) for the merge logic and the
+hard-reset-not-ff-pull sync each repo gets pulled with (rewritten upstream
+history shouldn't wedge the sync). On a name collision between the two
+repos, `gravitas-skills` wins.
 
 ## Skills
 
@@ -37,11 +44,9 @@ logic (rewritten upstream history shouldn't wedge the sync).
 
 ## Status
 
-As of 2026-08-07, **not yet wired into the live container** —
-`gravitas-workspace.mjs` in `ev-discord` only clones `gravitas-skills` into
-`.pi/skills` today. Making ev actually load skills from this repo at runtime
-is a separate change to `ev-discord`'s own workspace-bootstrap code, not
-something implied by writing skills here.
+Wired into the live container as of 2026-08-07 — `gravitas-workspace.mjs`
+in `ev-discord` clones this repo alongside `gravitas-skills` and merges
+both into `.pi/skills` every boot.
 
 Writing a new skill or editing existing skill logic here always needs an
 explicit human go-ahead, same rule as `gravitas-skills` (see
