@@ -79,6 +79,21 @@ definitions. The expected analytical tools are `summary`, `breakdown`,
 
 ## Phase 3 -- Choose the smallest useful tool
 
+HTTP methods are fixed by the backend and were verified against
+`/capabilities` and live probes:
+
+- `GET` with query parameters: `summary`, `breakdown`, `posts`, `timeseries`.
+  Always use `curl --get` with `--data-urlencode` for these; never POST them
+  (the backend returns `405 Method Not Allowed`).
+- `POST` with a JSON body: `compare` only. GET on `/compare` returns `405`.
+
+All four GET tools accept these shared filters: `start_date`, `end_date`
+(`YYYY-MM-DD`), `platform`, `format`, `organic_paid`, `collab`, `collab_name`,
+and `content_type`. `platform` must be one of `Facebook`, `Instagram`,
+`TikTok`, `YouTube`, or `LinkedIn`; other values return `422`.
+`organic_paid` accepts `organic`, `paid`, or `all`. `collab` accepts `collab`,
+`non_collab`, or `all`. Unset filters default to no filtering.
+
 ### Summary
 
 Use `GET /summary` for overall or platform KPI questions.
@@ -92,8 +107,7 @@ curl --fail-with-body --silent --show-error --max-time 90 --get \
   "${BASE}/summary"
 ```
 
-Optional filters: `start_date`, `end_date`, `platform`, `format`,
-`organic_paid`, `collab`, `collab_name`, and `content_type`.
+Optional filters are the shared filters listed above.
 
 ### Breakdown
 
@@ -111,9 +125,12 @@ curl --fail-with-body --silent --show-error --max-time 90 --get \
   "${BASE}/breakdown"
 ```
 
-Group by `platform`, `format`, `platform_format`, `organic_paid`, `collab`,
-`collab_name`, `month`, `week`, or `content_type`. It also accepts caption
-`search` and the summary filters.
+`group_by` defaults to `platform` and accepts `platform`, `format`,
+`platform_format`, `organic_paid`, `collab`, `collab_name`, `month`, `week`,
+or `content_type`. `sort_by` accepts `content_count`, `total_reach`,
+`total_views`, `total_engagement`, `avg_reach`, `avg_engagement_per_content`,
+`avg_engagement_rate`, or `weighted_engagement_rate`. `sort_order` accepts
+`asc` or `desc`. It also accepts caption `search` and the shared filters.
 
 ### Posts
 
@@ -129,9 +146,14 @@ curl --fail-with-body --silent --show-error --max-time 90 --get \
   "${BASE}/posts"
 ```
 
-Search is a literal, case-insensitive caption fragment. Results are bounded;
-use `limit` from 1 to 100 and `offset` for pagination. Do not imply that a
-bounded result contains every matching post when more pages exist.
+`search` is a literal, case-insensitive caption fragment. `sort_by` accepts
+`date`, `reach`, `views`, `engagement`, `engagement_rate`, `likes`, `comments`,
+`shares`, `favorites`, `reposts`, `impressions`, or `watch_time_hours` (the
+field is `favorites`, not `saves`). `sort_order` accepts `asc` or `desc`.
+`limit` must be between 1 and 100 and defaults to 20; use `offset` for
+pagination. The response includes `total_matches`, `offset`, and `limit`.
+Cite `total_matches` as the evaluated record count. Do not imply that a
+bounded page contains every matching post when more pages exist.
 
 ### Time series
 
@@ -147,8 +169,10 @@ curl --fail-with-body --silent --show-error --max-time 90 --get \
   "${BASE}/timeseries"
 ```
 
-Segment by `overall`, `platform`, `format`, `platform_format`,
-`organic_paid`, `collab`, `collab_name`, or `content_type`.
+`granularity` accepts `day`, `week`, or `month` and defaults to `month`.
+`segment_by` accepts `overall`, `platform`, `format`, `platform_format`,
+`organic_paid`, `collab`, `collab_name`, or `content_type` and defaults to
+`platform`. It also accepts the shared filters.
 
 ### Compare
 
@@ -169,7 +193,10 @@ curl --fail-with-body --silent --show-error --max-time 90 \
 ```
 
 Never describe a percentage change when the API returns its percentage delta
-as `null`; the previous value was zero.
+as `null`; the previous value was zero. `group_by` accepts `overall`,
+`platform`, `format`, `platform_format`, `organic_paid`, `collab`,
+`collab_name`, or `content_type` and defaults to `platform`. `filters` accepts
+the shared filter set plus `search`.
 
 ## Metric rules
 
