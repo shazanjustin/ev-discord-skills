@@ -32,15 +32,15 @@ X-API-Key: <ANALYTICS_API_KEY>
 Never print, quote, log, persist, or place the key in a URL, skill file, Git
 repository, or Discord response.
 
-## Phase 1 -- Apply the configured Discord access mode
+## Phase 1 -- Apply optional Discord restrictions
 
-When `ANALYTICS_ALLOW_ALL` is exactly `true` (case-insensitive), allow every
-Discord user who can talk to EV to use dashboard analytics. This does not make
-the backend API public; EV must still authenticate every request with
-`ANALYTICS_API_KEY`.
+Allow every Discord user who can talk to EV to use dashboard analytics when
+all allowlist variables below are empty. EV must still authenticate every
+backend request with `ANALYTICS_API_KEY`; this default does not make the API
+public.
 
-When `ANALYTICS_ALLOW_ALL` is not `true`, enforce the optional restricted mode
-before every analytics request.
+When any allowlist is configured, enforce restricted mode before every
+analytics request.
 
 Supported allowlists are comma-separated Discord IDs:
 
@@ -53,8 +53,9 @@ ANALYTICS_ALLOWED_ROLES
 Compare the current `EV_USER_ID`, `EV_CHANNEL_ID`, and any role IDs supplied by
 the runtime against those allowlists as exact IDs, not substrings.
 
-- Refuse when restricted mode is active and all allowlists are empty.
-- Allow when the current user, channel, or a reliably supplied role ID matches.
+- Allow when all allowlists are empty.
+- In restricted mode, allow only when the current user, channel, or a reliably
+  supplied role ID matches.
 - Do not assume a role match when role IDs are unavailable to the runtime.
 - Never reveal the configured allowlists in the response.
 
