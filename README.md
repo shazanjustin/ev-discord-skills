@@ -38,6 +38,8 @@ repos, `gravitas-skills` wins.
 
 ## Skills
 
+- **analytics-dashboard** — securely queries the read-only CIMB social analytics
+  API for summaries, breakdowns, post evidence, trends, and period comparisons.
 - **deadline-tracker** — adds a new row to the Gravitas Deadline Tracker
   Google Sheet via Composio's Google Sheets MCP tools, asking for missing
   context (owner, deadline, etc.) rather than guessing.

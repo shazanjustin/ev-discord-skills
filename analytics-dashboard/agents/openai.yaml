@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analytics Dashboard"
+  short_description: "Query the live social analytics dashboard"
+  default_prompt: "Use $analytics-dashboard to compare Instagram performance between June and July."
