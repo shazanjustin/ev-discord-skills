@@ -43,6 +43,9 @@ repos, `gravitas-skills` wins.
 - **deadline-tracker** — adds a new row to the Gravitas Deadline Tracker
   Google Sheet via Composio's Google Sheets MCP tools, asking for missing
   context (owner, deadline, etc.) rather than guessing.
+- **ads-start-reminder** — lists 7DAYS ads starting today through the next
+  working day from the client's DMP sheet. Read-only; drives the weekday
+  ads-start reminder scheduled job.
 
 ## Status
 
