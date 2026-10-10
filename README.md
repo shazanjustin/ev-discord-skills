@@ -46,6 +46,10 @@ repos, `gravitas-skills` wins.
 - **ads-start-reminder** — lists 7DAYS ads starting today through the next
   working day from the client's DMP sheet. Read-only; drives the weekday
   ads-start reminder scheduled job.
+- **radar** — reads the gravitas-radar digest (subreddits, trade press,
+  platform newsrooms, AI changelogs, plus ideas.shazan.me) and writes the
+  weekly radar brief. Needs `RADAR_URL` + `RADAR_TOKEN` on the ev app; the
+  feed list itself is managed on ev-status.shazan.me (Radar tab).
 
 ## Status
 
