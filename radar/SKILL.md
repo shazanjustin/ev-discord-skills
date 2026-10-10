@@ -45,9 +45,9 @@ Shape, Discord formatting, no tables:
 about, or that a platform officially changed. One or two lines each: what
 happened, why it matters to a social and performance agency, and the link.
 
-**For clients**: 2 to 4 concrete angles. Name the client it fits (Friso
-Gold, CIMB, NFC, Shiseido, Schwarzkopf, 7DAYS) only when the link between
-the item and that client is real. A platform change that affects every
+**For clients**: 2 to 4 concrete angles. Name the client it fits only
+when the link between the item and that client is real. (This repo is
+public, so client names live in your system prompt and memory, not here.) A platform change that affects every
 client is better said once than repeated for each one.
 
 **For our stack**: 1 to 3 tools, techniques or model changes that could
@@ -67,6 +67,9 @@ Rules:
 
 - Every claim comes from an item in the digest, with its link. Do not add
   news from memory; this brief exists to be current, and your memory is not.
+- Don't claim the team's own experience backs an item ("matches what we
+  see in client reporting") unless someone actually said so. Say what the
+  source says and let the team judge the fit.
 - A single Reddit post is one person's experience. Say "one user reports",
   not "people are finding". Several posts or an official source can carry
   a stronger statement.
